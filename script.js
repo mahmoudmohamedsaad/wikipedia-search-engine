@@ -1,4 +1,17 @@
-let resultsContainer = document.getElementsByClassName("container")[0]
+// Utility function to debounce
+function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
+let resultsContainer = document.getElementsByClassName("container")[0];
 
 const validateInput = (el) => {
     if(el.value === ""){
@@ -35,3 +48,6 @@ const generateResults = (searchValue, inputField) => {
         }
     })
 }
+// Attach debounced validateInput handler to input event
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', debounce(() => validateInput(searchInput), 300));
